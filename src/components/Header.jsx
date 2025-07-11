@@ -1,9 +1,11 @@
 // Header.jsx
-import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Nếu bạn dùng React Router
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useViewHistory } from '../hooks/useViewHistory';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { history } = useViewHistory();
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -18,6 +20,31 @@ const Header = () => {
           <Link to="/" className="text-gray-700 hover:text-green-600">Trang chủ</Link>
           <Link to="/courses" className="text-gray-700 hover:text-green-600">Khóa học</Link>
           <Link to="/about" className="text-gray-700 hover:text-green-600">Về chúng tôi</Link>
+          <Link to="/wishlist" className="text-gray-700 hover:text-green-600">Yêu thích</Link>
+          {/* Lịch sử xem */}
+          <Link to="/history" className="text-gray-700 hover:text-green-600 relative group">
+            <span className="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 inline"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              {history.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {history.length}
+                </span>
+              )}
+            </span>
+          </Link>
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
           <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             Đăng nhập
@@ -47,42 +74,57 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <nav className="md:hidden bg-white shadow-lg px-4 py-3 space-y-3">
-          <Link
-            to="/"
-            className="block text-gray-700 hover:text-green-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Trang chủ
-          </Link>
-          <Link
-            to="/courses"
-            className="block text-gray-700 hover:text-green-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Khóa học
-          </Link>
-          <Link
-            to="/about"
-            className="block text-gray-700 hover:text-green-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Về chúng tôi
-          </Link>
-          <Link
-            to="/contact"
-            className="block text-gray-700 hover:text-green-600"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Liên hệ
-          </Link>
-          <button className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-            Đăng nhập
-          </button>
-        </nav>
-      )}
+      {/* Mobile Navigation với Animation */}
+      <nav
+        className={`${isMenuOpen ? 'max-h-[300px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 translate-y-[-10px]'
+          } transform overflow-hidden transition-all duration-300 ease-in-out md:hidden bg-white shadow-lg px-4 pt-3 pb-4 space-y-3`}
+      >
+        <Link
+          to="/"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Trang chủ
+        </Link>
+        <Link
+          to="/courses"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Khóa học
+        </Link>
+        <Link
+          to="/about"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Về chúng tôi
+        </Link>
+        <Link
+          to="/wishlist"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Yêu thích
+        </Link>
+        <Link
+          to="/history"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Lịch sử xem
+        </Link>
+        <Link
+          to="/contact"
+          className="block text-gray-700 hover:text-green-600"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Liên hệ
+        </Link>
+        <button className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          Đăng nhập
+        </button>
+      </nav>
     </header>
   );
 };

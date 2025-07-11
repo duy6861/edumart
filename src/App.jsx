@@ -4,6 +4,9 @@ import Header from './components/Header';
 import Home from './pages/Home'; // Đảm bảo bạn import Home
 import ProductDetail from './pages/ProductDetail';
 import Footer from './components/Footer';
+import WishlistPage from './pages/WishlistPage';
+import { ToastContainer } from 'react-toastify';
+import HistoryPage from './pages/HistoryPage';
 function App() {
   return ( // <-- THIẾU RETURN TẠI ĐÂY
     <Router>
@@ -18,10 +21,23 @@ function App() {
             {/* Fallback nếu không tìm thấy trang */}
             <Route path="*" element={<h1 className="text-red-500">404 - Không tìm thấy trang</h1>} />
             <Route path="/product/:id" element={<ProductDetail />} /> {/* Route cho ProductDetail */}
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/history" element={<HistoryPage />} /> {/* Đã dùng useViewHistory */}
           </Routes>
         </main>
         <Footer />
-        {/* Footer (tuỳ chọn) */}
+        {/* ✅ Thêm ToastContainer tại đây (cuối cùng trong layout) */}
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     </Router>
   );
