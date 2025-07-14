@@ -36,3 +36,12 @@ export const keywordGroups = [
     productIds: [18, 20, 28]
   }
 ];
+export const removeVietnameseTones = (str) => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/([đĐ])/g, 'd')
+    .replace(/([^0-9a-z-A-Z ])/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+};

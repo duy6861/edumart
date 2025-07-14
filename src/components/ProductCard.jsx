@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ProductDetailModal from './ProductDetailModal';
 
-// ✅ Nhận toggleWishlist và isInWishlist từ props
+//  Nhận toggleWishlist và isInWishlist từ props
 export default function ProductCard({ product, toggleWishlist, isInWishlist }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

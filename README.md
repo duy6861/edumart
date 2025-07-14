@@ -10,6 +10,7 @@ Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc 
 - Gợi ý khóa học cá nhân hóa từ hành vi người dùng
 - Chatbot AI gợi ý sản phẩm dựa trên từ khóa
 - Responsive UI cho mọi thiết bị
+- Loading skeleton khi gọi API gợi ý
 - Modal chi tiết sản phẩm với hiệu ứng mượt mà
   # 🧰 Công nghệ sử dụng
 - React – Framework chính

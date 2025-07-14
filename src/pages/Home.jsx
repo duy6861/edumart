@@ -9,6 +9,7 @@ import ProductLoadError from '../components/ProductLoadError';
 import NoProductsFound from '../components/NoProductsFound';
 import ProductSuggestions from '../components/ProductSuggestions';
 import ProductCardSkeleton from '../components/ProductCardSkeleton';
+import { removeVietnameseTones } from '../data/keywords'; // Import hàm loại bỏ dấu tiếng Việt
 export default function Home() {
   const productsPerPage = 12;
   const [products, setProducts] = useState([]);
@@ -49,11 +50,12 @@ export default function Home() {
 
   const applyFilters = (data, priceFilter, search) => {
     let filtered = [...data];
-
     if (search) {
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(search.toLowerCase())
-      );
+      const normalizedSearch = removeVietnameseTones(search.toLowerCase());
+      filtered = filtered.filter(p => {
+        const normalizedName = removeVietnameseTones(p.name.toLowerCase());
+        return normalizedName.includes(normalizedSearch);
+      });
     }
 
     if (priceFilter === 'under500k') {
@@ -66,7 +68,7 @@ export default function Home() {
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
-    scrollToTop(); // ✅ Scroll khi áp dụng bộ lọc
+    scrollToTop();
   };
 
   const handleSearchTermChange = (term) => {
@@ -84,7 +86,7 @@ export default function Home() {
     setPriceFilter('all');
     setFilteredProducts(products);
     setCurrentPage(1);
-    scrollToTop(); // ✅ Scroll khi xóa lọc
+    scrollToTop();
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -132,7 +134,7 @@ export default function Home() {
           totalPages={totalPages}
           onPageChange={(page) => {
             setCurrentPage(page);
-            scrollToTop(); // ✅ Scroll khi đổi trang
+            scrollToTop();
           }}
         />
       )}
@@ -144,17 +146,3 @@ export default function Home() {
     </div>
   );
 }
-
-// Component Skeleton
-// function ProductCardSkeleton() {
-//   return (
-//     <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-//       <div className="w-full h-48 bg-gray-200"></div>
-//       <div className="p-4">
-//         <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-//         <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-//         <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-//       </div>
-//     </div>
-//   );
-// }
