@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { useViewHistory } from '../hooks/useViewHistory';
-
+import UnderDevelopmentModal from './UnderDevelopmentModal';
 Modal.setAppElement('#root');
 
 export default function ProductDetailModal({ productId, isOpen, onClose }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // Dùng riêng biệt với isOpen để delay render
-
+  const [showUndevelopedModal, setUndevelopedModal] = useState(false);
   const { addToViewHistory } = useViewHistory();
 
   // Delay render modal để tránh chớp màn hình
@@ -109,12 +109,15 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
 
           <button
             className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-            onClick={() => alert('Đặt hàng thành công!')}
+            // onClick={() => alert('Đặt hàng thành công!')}
+            onClick={() => setUndevelopedModal(true)}
           >
             Đặt hàng ngay
           </button>
         </>
       )}
+      {/* Modal - Tính năng đang phát triển */}
+      <UnderDevelopmentModal isOpen={showUndevelopedModal} onClose={() => setUndevelopedModal(false)} />
     </Modal>
   );
 }

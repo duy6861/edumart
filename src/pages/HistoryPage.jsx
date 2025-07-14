@@ -1,5 +1,3 @@
-// src/pages/HistoryPage.jsx
-import React from 'react';
 import ProductCardWishlist from '../components/ProductCardWishlist';
 import { useViewHistory } from '../hooks/useViewHistory';
 

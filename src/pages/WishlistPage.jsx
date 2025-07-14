@@ -1,4 +1,3 @@
-import React from 'react';
 import ProductCardWishlist from '../components/ProductCardWishlist';
 import { useWishlist } from '../hooks/useWishlist';
 

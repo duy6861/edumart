@@ -1,4 +1,3 @@
-// src/components/NoProductsFound.jsx
 export default function NoProductsFound({ onClearFilters }) {
   return (
     <div className="col-span-full text-center py-10 px-4">

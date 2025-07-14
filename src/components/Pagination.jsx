@@ -1,4 +1,3 @@
-// src/components/Pagination.jsx
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   const pageNumbers = [];
 

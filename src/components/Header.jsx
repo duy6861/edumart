@@ -2,9 +2,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useViewHistory } from '../hooks/useViewHistory';
-
+import UnderDevelopmentModal from './UnderDevelopmentModal'; // Import modal component
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showUndevelopedModal, setUndevelopedModal] = useState(false);
   const { history } = useViewHistory();
 
   return (
@@ -46,7 +47,7 @@ const Header = () => {
             </span>
           </Link>
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
-          <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          <button onClick={() => setUndevelopedModal(true)} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             Đăng nhập
           </button>
         </nav>
@@ -125,6 +126,8 @@ const Header = () => {
           Đăng nhập
         </button>
       </nav>
+      {/* Modal - Tính năng đang phát triển */}
+      <UnderDevelopmentModal isOpen={showUndevelopedModal} onClose={() => setUndevelopedModal(false)} />
     </header>
   );
 };
