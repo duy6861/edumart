@@ -22,7 +22,6 @@ export default function Home() {
   const { toggleWishlist, isInWishlist } = useWishlist();
 
 
-  // ✅ Scroll toàn trang
   const scrollToTop = () => {
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });

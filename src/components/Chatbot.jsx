@@ -77,7 +77,7 @@ export default function Chatbot() {
       {/* Nút mở chatbot */}
       <button
         onClick={toggleChat}
-        className="fixed bottom-6 right-6 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition z-40"
+        className="fixed bottom-6 right-6 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition z-40 pulse-scale"
         aria-label="Mở chatbot"
       >
         <svg

@@ -1,4 +1,3 @@
-// src/components/ProductDetailModal.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
@@ -14,6 +13,17 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
   const { addToViewHistory } = useViewHistory();
 
   // Delay render modal để tránh chớp màn hình
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setShowModal(true);
+  //     const timer = setTimeout(() => {
+  //       fetchProduct();
+  //     }, 50);
+  //     return () => clearTimeout(timer);
+  //   } else {
+  //     setShowModal(false);
+  //   }
+  // }, [isOpen]);
   useEffect(() => {
     if (isOpen) {
       setShowModal(true);
@@ -22,10 +32,12 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
       }, 50);
       return () => clearTimeout(timer);
     } else {
-      setShowModal(false);
+      const timer = setTimeout(() => {
+        setShowModal(false);
+      }, 300); // khớp với thời gian animate-fade-out
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
-
   const fetchProduct = async () => {
     try {
       const res = await axios.get(`https://mock-english-api.onrender.com/products/${productId}`);

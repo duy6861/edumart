@@ -1,4 +1,3 @@
-// src/components/ProductCardWishlist.jsx
 import React, { useState } from 'react';
 import ProductDetailModal from './ProductDetailModal';
 
