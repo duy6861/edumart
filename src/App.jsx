@@ -19,7 +19,6 @@ function App() {
             {/* <Route path="/courses" element={<Courses />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} /> */}
-            {/* Fallback nếu không tìm thấy trang */}
             <Route path="*" element={<h1 className="text-red-500">404 - Không tìm thấy trang</h1>} />
             <Route path="/product/:id" element={<ProductDetail />} /> {/* Route cho ProductDetail */}
             <Route path="/wishlist" element={<WishlistPage />} />
@@ -28,7 +27,7 @@ function App() {
         </main>
         <Chatbot />
         <Footer />
-        {/* ✅ Thêm ToastContainer tại đây (cuối cùng trong layout) */}
+        {/*ToastContainer */}
         <ToastContainer
           position="top-right"
           autoClose={1000}

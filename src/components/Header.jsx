@@ -1,4 +1,3 @@
-// Header.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useViewHistory } from '../hooks/useViewHistory';
@@ -39,11 +38,11 @@ const Header = () => {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              {history.length > 0 && (
+              {/* {history.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {history.length}
                 </span>
-              )}
+              )} */}
             </span>
           </Link>
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
@@ -122,7 +121,7 @@ const Header = () => {
         >
           Liên hệ
         </Link>
-        <button className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        <button onClick={() => setUndevelopedModal(true)} className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
           Đăng nhập
         </button>
       </nav>

@@ -1,5 +1,6 @@
 Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc giá, phân trang, wishlist, lịch sử xem, chat bot và gợi ý sản phẩm thông minh.
-💻 Tính năng nổi bật:
+
+# 💻 Tính năng nổi bật:
 
 - Hiển thị danh sách khóa học từ API giả lập
 - Tìm kiếm và lọc theo giá
@@ -10,7 +11,7 @@ Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc 
 - Chatbot AI gợi ý sản phẩm dựa trên từ khóa
 - Responsive UI cho mọi thiết bị
 - Modal chi tiết sản phẩm với hiệu ứng mượt mà
-  🧰 Công nghệ sử dụng
+  # 🧰 Công nghệ sử dụng
 - React – Framework chính
 - React Router v6 – Điều hướng trong ứng dụng
 - Tailwind CSS – Thư viện styling
@@ -18,20 +19,21 @@ Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc 
 - React-modal
 - React-toastify
 - localStorage – Lưu trữ wishlist và view history
-  🛠️ Yêu cầu hệ thống
+  # 🛠️ Yêu cầu hệ thống
 - Node.js >= 14.x
 - npm hoặc yarn
 - Trình duyệt hiện đại (Chrome, Firefox, Safari...)
   🚀 Cách build và chạy ứng dụng:
 - git clone https://github.com/yourusername/english-learning-platform.git
 - cd english-learning-platform
-- npm install
+
+# npm install
 
 # Hoặc nếu dùng yarn:
 
 # yarn install
 
-- npm start
+# npm start
 
 # Hoặc:
 

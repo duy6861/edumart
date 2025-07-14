@@ -46,6 +46,9 @@ export const useWishlist = () => {
         return [...prev, product];
       }
     });
+    if (!isInWishlist(product.id)) {
+      toast.info('Thêm sản phẩm vào danh sách yêu thích');
+    }
   };
 
   // Kiểm tra sản phẩm đã có trong wishlist chưa
