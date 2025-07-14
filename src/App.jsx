@@ -7,8 +7,9 @@ import Footer from './components/Footer';
 import WishlistPage from './pages/WishlistPage';
 import { ToastContainer } from 'react-toastify';
 import HistoryPage from './pages/HistoryPage';
+import Chatbot from './components/Chatbot';
 function App() {
-  return ( // <-- THIẾU RETURN TẠI ĐÂY
+  return (
     <Router>
       <div className="min-h-screen flex flex-col">
         <Header />
@@ -25,6 +26,7 @@ function App() {
             <Route path="/history" element={<HistoryPage />} /> {/* Đã dùng useViewHistory */}
           </Routes>
         </main>
+        <Chatbot />
         <Footer />
         {/* ✅ Thêm ToastContainer tại đây (cuối cùng trong layout) */}
         <ToastContainer

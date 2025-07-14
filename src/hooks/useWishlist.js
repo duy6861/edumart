@@ -16,7 +16,7 @@ export const useWishlist = () => {
     setWishlist(prev => {
       const exists = prev.some(item => item.id === product.id);
       if (!exists) {
-        console.log('✅ Đã thêm vào wishlist:', product.name);
+        // console.log('✅ Đã thêm vào wishlist:', product.name);
         return [...prev, product];
       }
       return prev;
@@ -27,7 +27,7 @@ export const useWishlist = () => {
   const removeFromWishlist = (productId) => {
     setWishlist(prev => {
       const updated = prev.filter(item => item.id !== productId);
-      console.log('❌ Đã xoá khỏi wishlist ID:', productId);
+      // console.log('Đã xoá khỏi wishlist ID:', productId);
 
       return updated;
     });
@@ -39,10 +39,10 @@ export const useWishlist = () => {
     setWishlist(prev => {
       const exists = prev.some(item => item.id === product.id);
       if (exists) {
-        console.log('❌ Đã bỏ yêu thích:', product.name);
+        // console.log('Đã bỏ yêu thích:', product.name);
         return prev.filter(item => item.id !== product.id);
       } else {
-        console.log('✅ Đã thêm vào wishlist:', product.name);
+        // console.log('Đã thêm vào wishlist:', product.name);
         return [...prev, product];
       }
     });
@@ -51,7 +51,7 @@ export const useWishlist = () => {
   // Kiểm tra sản phẩm đã có trong wishlist chưa
   const isInWishlist = (productId) => {
     const result = wishlist.some(item => item.id === productId);
-    console.log(`🔍 ${result ? 'Có' : 'Không'} trong wishlist:`, productId);
+    // console.log(`🔍 ${result ? 'Có' : 'Không'} trong wishlist:`, productId);
     return result;
   };
 

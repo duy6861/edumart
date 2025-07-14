@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from '../components/ProductCard';
@@ -7,8 +6,8 @@ import PriceFilter from '../components/PriceFilter';
 import Pagination from '../components/Pagination';
 import { useWishlist } from '../hooks/useWishlist';
 import ProductLoadError from '../components/ProductLoadError';
-import NoProductsFound from '../components/NoProductsFound'; // Đã thêm component mới
-
+import NoProductsFound from '../components/NoProductsFound';
+import ProductSuggestions from '../components/ProductSuggestions';
 export default function Home() {
   const productsPerPage = 12;
   const [products, setProducts] = useState([]);
@@ -20,14 +19,21 @@ export default function Home() {
 
   const { toggleWishlist, isInWishlist } = useWishlist();
 
-  // Fetch sản phẩm từ API
+
+  // ✅ Scroll toàn trang
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get('https://mock-english-api.onrender.com/products');
         const data = res.data;
         setProducts(data);
-        applyFilters(data, priceFilter, searchTerm); // Áp dụng lại các bộ lọc sau khi load
+        applyFilters(data, priceFilter, searchTerm);
       } catch (err) {
         console.error('Lỗi khi tải sản phẩm:', err);
         setProducts([]);
@@ -40,7 +46,6 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  // Hàm xử lý lọc chung
   const applyFilters = (data, priceFilter, search) => {
     let filtered = [...data];
 
@@ -59,22 +64,28 @@ export default function Home() {
     }
 
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset về trang đầu tiên sau khi áp dụng bộ lọc
+    setCurrentPage(1);
+    scrollToTop(); // ✅ Scroll khi áp dụng bộ lọc
   };
 
-  // Xử lý thay đổi từ khóa tìm kiếm
   const handleSearchTermChange = (term) => {
     setSearchTerm(term);
     applyFilters(products, priceFilter, term);
   };
 
-  // Xử lý thay đổi lựa chọn giá
   const handlePriceFilterChange = (filter) => {
     setPriceFilter(filter);
     applyFilters(products, filter, searchTerm);
   };
 
-  // Tính toán sản phẩm theo trang
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setPriceFilter('all');
+    setFilteredProducts(products);
+    setCurrentPage(1);
+    scrollToTop(); // ✅ Scroll khi xóa lọc
+  };
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -97,12 +108,8 @@ export default function Home() {
           [...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)
         ) : filteredProducts.length === 0 && products.length === 0 ? (
           <ProductLoadError onRetry={() => window.location.reload()} />
-        ) : filteredProducts.length === 0 && products.length > 0 ? (
-          <NoProductsFound onClearFilters={() => {
-            setSearchTerm('');
-            setPriceFilter('all');
-            applyFilters(products, 'all', '');
-          }} />
+        ) : filteredProducts.length === 0 ? (
+          <NoProductsFound onClearFilters={handleClearFilters} />
         ) : currentProducts.length > 0 ? (
           currentProducts.map(product => (
             <ProductCard
@@ -112,7 +119,9 @@ export default function Home() {
               isInWishlist={isInWishlist}
             />
           ))
-        ) : null}
+        ) : (
+          <p className="col-span-full text-center text-gray-500">Không có sản phẩm nào phù hợp.</p>
+        )}
       </div>
 
       {/* Phân trang */}
@@ -120,14 +129,22 @@ export default function Home() {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+            scrollToTop(); // ✅ Scroll khi đổi trang
+          }}
+        />
+      )}
+      {!loading && (
+        <ProductSuggestions
+          allProducts={products}
         />
       )}
     </div>
   );
 }
 
-// Skeleton loading component
+// Component Skeleton
 function ProductCardSkeleton() {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
