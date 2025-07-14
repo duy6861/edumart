@@ -27,14 +27,17 @@ Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc 
 - git clone https://github.com/yourusername/english-learning-platform.git
 - cd english-learning-platform
 
-# npm install
+# Cách Chạy Project
 
-# Hoặc nếu dùng yarn:
+npm install
 
-# yarn install
+Hoặc nếu dùng yarn:
 
-# npm start
+yarn install
 
-# Hoặc:
+Sau đó dùng lệnh:
+npm start
 
-# yarn start
+Hoặc:
+
+yarn start
