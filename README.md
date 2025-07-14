@@ -24,8 +24,8 @@ Một ứng dụng học tiếng Anh với React, hỗ trợ tìm kiếm, lọc 
 - npm hoặc yarn
 - Trình duyệt hiện đại (Chrome, Firefox, Safari...)
   🚀 Cách build và chạy ứng dụng:
-- git clone https://github.com/yourusername/english-learning-platform.git
-- cd english-learning-platform
+- git clone git@github.com:duy6861/edumart.git
+- cd edumart
 
 # Cách Chạy Project
 
