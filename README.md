@@ -41,3 +41,7 @@ npm start
 Hoặc:
 
 yarn start
+
+# 🔔 lưu ý
+
+phần lịch sử xem sẽ hiện thị khi bấm vào biêu tượng đồng hồ bên cạnh button yêu thích
