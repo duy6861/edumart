@@ -1,6 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../api/productSlice';
+import {
+  setSearchTerm,
+  setPriceFilter,
+  setCurrentPage,
+  clearFilters,
+  selectFilteredProducts,
+} from '../api/filterSlice';
+
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
 import PriceFilter from '../components/PriceFilter';
@@ -10,17 +18,19 @@ import ProductLoadError from '../components/ProductLoadError';
 import NoProductsFound from '../components/NoProductsFound';
 import ProductSuggestions from '../components/ProductSuggestions';
 import ProductCardSkeleton from '../components/ProductCardSkeleton';
-import { removeVietnameseTones } from '../data/keywords';
 
 export default function Home() {
   const dispatch = useDispatch();
+
   const { products, loading, error } = useSelector((state) => state.products);
+  const { searchTerm, priceFilter, currentPage } = useSelector((state) => state.filters);
+  const filteredProducts = useSelector(selectFilteredProducts);
 
   const productsPerPage = 12;
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [priceFilter, setPriceFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const { toggleWishlist, isInWishlist } = useWishlist();
 
@@ -34,53 +44,23 @@ export default function Home() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    applyFilters(products, priceFilter, searchTerm);
-  }, [products, priceFilter, searchTerm]);
-
-  const applyFilters = (data, priceFilter, search) => {
-    let filtered = [...data];
-    if (search) {
-      const normalizedSearch = removeVietnameseTones(search.toLowerCase());
-      filtered = filtered.filter((p) => {
-        const normalizedName = removeVietnameseTones(p.name.toLowerCase());
-        return normalizedName.includes(normalizedSearch);
-      });
-    }
-
-    if (priceFilter === 'under500k') {
-      filtered = filtered.filter((p) => p.price < 500000);
-    } else if (priceFilter === '500kTo1m') {
-      filtered = filtered.filter((p) => p.price >= 500000 && p.price <= 1000000);
-    } else if (priceFilter === 'over1m') {
-      filtered = filtered.filter((p) => p.price > 1000000);
-    }
-
-    setFilteredProducts(filtered);
-    setCurrentPage(1);
-    scrollToTop();
-  };
-
   const handleSearchTermChange = (term) => {
-    setSearchTerm(term);
+    dispatch(setSearchTerm(term));
   };
 
   const handlePriceFilterChange = (filter) => {
-    setPriceFilter(filter);
+    dispatch(setPriceFilter(filter));
   };
 
   const handleClearFilters = () => {
-    setSearchTerm('');
-    setPriceFilter('all');
-    setFilteredProducts(products);
-    setCurrentPage(1);
+    dispatch(clearFilters());
     scrollToTop();
   };
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
+    scrollToTop();
+  };
 
   return (
     <div className="mb-8">
@@ -118,10 +98,7 @@ export default function Home() {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={(page) => {
-            setCurrentPage(page);
-            scrollToTop();
-          }}
+          onPageChange={handlePageChange}
         />
       )}
 

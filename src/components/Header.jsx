@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { useViewHistory } from '../hooks/useViewHistory';
-import UnderDevelopmentModal from './UnderDevelopmentModal'; // Import modal component
+import UnderDevelopmentModal from './UnderDevelopmentModal';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUndevelopedModal, setUndevelopedModal] = useState(false);
-  // const { history } = useViewHistory();
+  const [showTooltip, setShowTooltip] = useState(false); // Thay group-hover bằng state
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -15,41 +15,45 @@ const Header = () => {
           <Link to="/">Antoree</Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 items-center">
+        {/* Desktop Navigation (Hiển thị cho tablet và desktop) */}
+        <nav className="hidden sm:flex space-x-6 items-center">
           <Link to="/" className="text-gray-700 hover:text-green-600">Trang chủ</Link>
           <Link to="/courses" className="text-gray-700 hover:text-green-600">Khóa học</Link>
           <Link to="/about" className="text-gray-700 hover:text-green-600">Về chúng tôi</Link>
           <Link to="/wishlist" className="text-gray-700 hover:text-green-600">Yêu thích</Link>
-          {/* Lịch sử xem */}
-          <div className="relative group">
-            <Link to="/history" className="text-gray-700 hover:text-green-600 relative group">
-              <span className="relative">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 inline"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                {/* {history.length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                    {history.length}
-                  </span>
-                )} */}
-              </span>
+
+          {/* Lịch sử xem với tooltip tương thích iPad */}
+          <div className="relative"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            onClick={() => setShowTooltip(prev => !prev)}
+          >
+            <Link to="/history" className="text-gray-700 hover:text-green-600 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 inline"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
             </Link>
-            <div className="absolute left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
+
+            {/* Tooltip tương thích iPad/tablet */}
+            <div className={`${showTooltip ? 'opacity-100' : 'opacity-0'} 
+                            absolute left-1/2 -translate-x-1/2 mt-2 px-2 py-1 
+                            bg-gray-800 text-white text-xs rounded transition-opacity duration-200 
+                            pointer-events-none whitespace-nowrap z-20`}>
               Sản phẩm đã xem
             </div>
           </div>
+
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
           <button onClick={() => setUndevelopedModal(true)} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             Đăng nhập
@@ -58,10 +62,9 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-700 focus:outline-none"
+          className="sm:hidden text-gray-700 focus:outline-none"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {/* Burger Icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -79,10 +82,11 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation với Animation */}
+      {/* Mobile Navigation với Animation (tăng max-h để phù hợp iPad) */}
       <nav
-        className={`${isMenuOpen ? 'max-h-[300px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 translate-y-[-10px]'
-          } transform overflow-hidden transition-all duration-300 ease-in-out md:hidden bg-white shadow-lg px-4 pt-3 pb-4 space-y-3`}
+        className={`${isMenuOpen ? 'max-h-[400px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 translate-y-[-10px]'}
+          transform overflow-hidden transition-all duration-300 ease-in-out sm:hidden
+          bg-white shadow-lg px-4 pt-3 pb-4 space-y-3`}
       >
         <Link
           to="/"
@@ -130,6 +134,7 @@ const Header = () => {
           Đăng nhập
         </button>
       </nav>
+
       {/* Modal - Tính năng đang phát triển */}
       <UnderDevelopmentModal isOpen={showUndevelopedModal} onClose={() => setUndevelopedModal(false)} />
     </header>
