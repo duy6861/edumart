@@ -8,7 +8,7 @@ export const keywordGroups = [
     productIds: [2, 13, 34]
   },
   {
-    keywords: /cơ bản|mất gốc|mới bắt đầu|beginner|starter|sơ cấp|từ đầu|từ vựng | học/i,
+    keywords: /cơ bản|mất gốc|mới bắt đầu|beginner|starter|sơ cấp|từ đầu|từ vựng|học/i,
     productIds: [1, 4, 6, 16, 39, 40]
   },
   {
