@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home'; // Đảm bảo bạn import Home
 import ProductDetail from './pages/ProductDetail';
+import AboutPage from './pages/AboutPage';
 import Footer from './components/Footer';
 import WishlistPage from './pages/WishlistPage';
 import { ToastContainer } from 'react-toastify';
@@ -16,9 +17,9 @@ function App() {
         <main className="flex-grow container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/courses" element={<Courses />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} /> */}
+            {/* <Route path="/courses" element={<Courses />} /> */}
+            <Route path="/about" element={<AboutPage />} />
+            {/* <Route path="/contact" element={<Contact />} /> */}
             <Route path="*" element={<h1 className="text-red-500">404 - Không tìm thấy trang</h1>} />
             <Route path="/product/:id" element={<ProductDetail />} /> {/* Route cho ProductDetail */}
             <Route path="/wishlist" element={<WishlistPage />} />
