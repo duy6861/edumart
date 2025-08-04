@@ -9,6 +9,7 @@ import WishlistPage from './pages/WishlistPage';
 import { ToastContainer } from 'react-toastify';
 import HistoryPage from './pages/HistoryPage';
 import Chatbot from './components/Chatbot';
+import AuthPage from './pages/AuthPage';
 function App() {
   return (
     <Router>
@@ -22,6 +23,7 @@ function App() {
             {/* <Route path="/contact" element={<Contact />} /> */}
             <Route path="*" element={<h1 className="text-red-500">404 - Không tìm thấy trang</h1>} />
             <Route path="/product/:id" element={<ProductDetail />} /> {/* Route cho ProductDetail */}
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/history" element={<HistoryPage />} /> {/* Đã dùng useViewHistory */}
           </Routes>

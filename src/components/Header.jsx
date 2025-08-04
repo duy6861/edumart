@@ -55,9 +55,12 @@ const Header = () => {
           </div>
 
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
-          <button onClick={() => setUndevelopedModal(true)} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          {/* <button onClick={() => setUndevelopedModal(true)} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
             Đăng nhập
-          </button>
+          </button> */}
+          <Link to="/auth" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+            Đăng nhập
+          </Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -130,9 +133,12 @@ const Header = () => {
         >
           Liên hệ
         </Link>
-        <button onClick={() => setUndevelopedModal(true)} className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+        {/* <button onClick={() => setUndevelopedModal(true)} className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
           Đăng nhập
-        </button>
+        </button> */}
+        <Link to="/auth" className="w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+          Đăng nhập
+        </Link>
       </nav>
 
       {/* Modal - Tính năng đang phát triển */}
