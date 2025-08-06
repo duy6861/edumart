@@ -56,9 +56,13 @@ export default function AuthPage() {
       setIsLogin(true);
     }
   };
-
   const handleGoogleLogin = async () => {
     try {
+      // Thêm dòng này để luôn hiển thị chọn tài khoản
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      });
+
       const { user } = await signInWithPopup(auth, provider);
       const userData = {
         name: user.displayName,
@@ -68,7 +72,11 @@ export default function AuthPage() {
       dispatch(login(userData));
       navigate('/');
     } catch (error) {
-      alert('Đăng nhập Google thất bại: ' + error.message);
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('Người dùng đóng cửa sổ đăng nhập');
+      } else {
+        alert('Đăng nhập Google thất bại: ' + error.message);
+      }
     }
   };
 
