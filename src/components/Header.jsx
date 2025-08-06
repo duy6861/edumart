@@ -12,7 +12,8 @@ const Header = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  // ✅ Thêm authChecked từ Redux
+  const { user, isAuthenticated, authChecked } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,12 +21,44 @@ const Header = () => {
     try {
       await signOut(auth);
       dispatch(logout());
-      setShowUserMenu(false)
+      setShowUserMenu(false);
       navigate('/');
     } catch (error) {
       console.error("Logout failed", error);
     }
   };
+
+  // ✅ Hàm tạo URL avatar an toàn
+  const getAvatarSrc = () => {
+    if (user?.photo) return user.photo;
+    const name = user?.name || 'User';
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff&rounded=true&length=2`;
+  };
+
+  // ✅ Hàm lấy tên hiển thị (họ tên cuối)
+  const getDisplayName = () => {
+    if (!user?.name) return 'Người dùng';
+    const parts = user.name.trim().split(' ');
+    return parts[parts.length - 1];
+  };
+
+  // ✅ Trong lúc chưa kiểm tra xong, hiển thị placeholder
+  if (!authChecked) {
+    return (
+      <header className="bg-white shadow-md sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <div className="text-xl font-bold text-green-600">Antoree</div>
+          <div className="hidden sm:flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-sm text-gray-500">Đang tải...</span>
+          </div>
+          <button className="sm:hidden text-gray-700">
+            <div className="w-6 h-6 border border-gray-300 rounded animate-pulse"></div>
+          </button>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -43,7 +76,8 @@ const Header = () => {
           <Link to="/wishlist" className="text-gray-700 hover:text-green-600">Yêu thích</Link>
 
           {/* Lịch sử xem */}
-          <div className="relative"
+          <div
+            className="relative"
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
             onClick={() => setShowTooltip(prev => !prev)}
@@ -63,7 +97,7 @@ const Header = () => {
 
           <Link to="/contact" className="text-gray-700 hover:text-green-600">Liên hệ</Link>
 
-          {/* Hiển thị tên người dùng hoặc nút đăng nhập */}
+          {/* Hiển thị người dùng hoặc nút đăng nhập */}
           {isAuthenticated ? (
             <div className="relative">
               <button
@@ -71,11 +105,11 @@ const Header = () => {
                 className="flex items-center space-x-2 text-gray-700 hover:text-green-600 focus:outline-none"
               >
                 <img
-                  src={user.photo || `https://ui-avatars.com/api/?name=${user.name}`}
+                  src={getAvatarSrc()}
                   alt="Avatar"
-                  className="w-8 h-8 rounded-full border"
+                  className="w-8 h-8 rounded-full border border-gray-200"
                 />
-                <span className="font-medium">{user.name?.split(' ').slice(-1)[0]}</span>
+                <span className="font-medium">{getDisplayName()}</span>
               </button>
 
               {showUserMenu && (
@@ -130,7 +164,7 @@ const Header = () => {
         {isAuthenticated ? (
           <>
             <span className="block px-4 py-2 text-gray-700 font-medium">
-              Xin chào, {user.name?.split(' ').slice(-1)[0]}
+              Xin chào, {getDisplayName()}
             </span>
             <button
               onClick={handleLogout}

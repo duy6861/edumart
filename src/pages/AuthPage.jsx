@@ -58,18 +58,13 @@ export default function AuthPage() {
   };
   const handleGoogleLogin = async () => {
     try {
-      // Thêm dòng này để luôn hiển thị chọn tài khoản
       provider.setCustomParameters({
         prompt: 'select_account'
       });
 
-      const { user } = await signInWithPopup(auth, provider);
-      const userData = {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}`
-      };
-      dispatch(login(userData));
+      // ✅ Chỉ cần đăng nhập, không cần dispatch
+      await signInWithPopup(auth, provider);
+      // onAuthStateChanged sẽ tự động dispatch(login) → navigate
       navigate('/');
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
