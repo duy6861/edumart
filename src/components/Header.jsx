@@ -115,9 +115,13 @@ const Header = () => {
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border">
                   <Link
-                    to="/profile"
+                    // to="/profile"
                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={() => setShowUserMenu(false)}
+                    onClick={() => {
+                      setShowUserMenu(false)
+                      setUndevelopedModal(true)
+                    }}
+
                   >
                     Hồ sơ
                   </Link>
@@ -151,28 +155,28 @@ const Header = () => {
       {/* Mobile Menu */}
       <nav
         className={`${isMenuOpen
-          ? 'max-h-[400px] opacity-100 translate-y-0'
+          ? 'max-h-[450px] opacity-100 translate-y-0'
           : 'max-h-0 opacity-0 translate-y-[-10px]'
           }
     overflow-hidden transition-all duration-300 ease-in-out transform
     bg-white shadow-lg px-4 pt-3 pb-4 space-y-3 flex flex-col sm:hidden`}
       >
-        <Link to="/" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Trang chủ
         </Link>
-        <Link to="/courses" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/courses" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Khóa học
         </Link>
-        <Link to="/about" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/about" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Về chúng tôi
         </Link>
-        <Link to="/wishlist" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/wishlist" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Yêu thích
         </Link>
-        <Link to="/history" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/history" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Lịch sử xem
         </Link>
-        <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition">
+        <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="px-4 py-1 text-gray-700 hover:bg-gray-100 rounded transition">
           Liên hệ
         </Link>
 
