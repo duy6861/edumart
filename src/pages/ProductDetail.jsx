@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
+  const navigate = useNavigate(); // Hook để điều hướng
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +22,12 @@ const ProductDetail = () => {
 
     fetchProduct();
   }, [id]);
-
+  const handleOrderNow = () => {
+    if (product) {
+      // Điều hướng đến trang thanh toán, gửi thông tin sản phẩm qua state
+      navigate('/checkout', { state: { product } });
+    }
+  };
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center p-8">
@@ -84,7 +90,7 @@ const ProductDetail = () => {
       {/* Action Button */}
       <button
         className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-        onClick={() => alert('Đặt hàng thành công!')}
+        onClick={handleOrderNow} // Gọi hàm điều hướng
       >
         Đặt hàng ngay
       </button>

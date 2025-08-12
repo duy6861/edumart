@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import AboutPage from './pages/AboutPage';
 import Footer from './components/Footer';
+import PaymentPage from './pages/PaymentPage';
 import WishlistPage from './pages/WishlistPage';
 import { ToastContainer } from 'react-toastify';
 import HistoryPage from './pages/HistoryPage';
@@ -59,6 +60,7 @@ function App() {
         <main className="flex-grow container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/checkout" element={<PaymentPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<h1 className="text-red-500">404 - Không tìm thấy trang</h1>} />
             <Route path="/product/:id" element={<ProductDetail />} />

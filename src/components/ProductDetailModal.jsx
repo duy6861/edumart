@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { useViewHistory } from '../hooks/useViewHistory';
+import { useNavigate } from 'react-router-dom';
 import UnderDevelopmentModal from './UnderDevelopmentModal';
 Modal.setAppElement('#root');
 
@@ -11,7 +12,7 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
   const [showModal, setShowModal] = useState(false); // Dùng riêng biệt với isOpen để delay render
   const [showUndevelopedModal, setUndevelopedModal] = useState(false);
   const { addToViewHistory } = useViewHistory();
-
+  const navigate = useNavigate(); //
   // Delay render modal để tránh chớp màn hình
   // useEffect(() => {
   //   if (isOpen) {
@@ -50,7 +51,13 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
       setLoading(false);
     }
   };
-
+  const handleOrderNow = () => {
+    if (product) {
+      onClose(); // Đóng modal trước
+      // Điều hướng đến trang thanh toán, gửi thông tin sản phẩm qua state
+      navigate('/checkout', { state: { product } });
+    }
+  };
   // Chỉ render modal khi showModal là true
   if (!showModal) return null;
 
@@ -121,8 +128,8 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
 
           <button
             className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-            // onClick={() => alert('Đặt hàng thành công!')}
-            onClick={() => setUndevelopedModal(true)}
+            onClick={handleOrderNow}
+          // onClick={() => setUndevelopedModal(true)}
           >
             Đặt hàng ngay
           </button>
