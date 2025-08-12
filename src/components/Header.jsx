@@ -61,7 +61,7 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-white shadow-md md:sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <div className="text-xl font-bold text-green-600">
@@ -184,7 +184,15 @@ const Header = () => {
           <>
             <span className="block px-4 py-2 text-gray-700 font-medium bg-gray-50 rounded">
               Xin chào, {getDisplayName()}
-            </span>
+            </span>   <button
+              onClick={() => {
+                setIsMenuOpen(false);
+                setUndevelopedModal(true)
+              }}
+              className="w-full text-left px-4 py-2  text-gray-700 hover:bg-red-50 rounded transition"
+            >
+              Hồ sơ
+            </button>
             <button
               onClick={() => {
                 handleLogout();
