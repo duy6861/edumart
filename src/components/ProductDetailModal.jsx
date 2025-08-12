@@ -43,7 +43,7 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
       let data;
       try {
         data = JSON.parse(text);
-      } catch (e) {
+      } catch {
         throw new Error("API trả về không phải JSON");
       }
 
@@ -166,22 +166,13 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
 
             <button
               className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-              onClick={() => setUndevelopedModal(true)}
+              onClick={() => handleOrderNow()}
             >
               Đặt hàng ngay
             </button>
           </>
         )}
       </div>
-          <button
-            className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-            onClick={handleOrderNow}
-          // onClick={() => setUndevelopedModal(true)}
-          >
-            Đặt hàng ngay
-          </button>
-        </>
-      )}
 
       {/* Modal - Tính năng đang phát triển */}
       <UnderDevelopmentModal
