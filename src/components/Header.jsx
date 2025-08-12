@@ -68,7 +68,7 @@ const Header = () => {
           <Link to="/">Antoree</Link>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation (Hiển thị cho tablet và desktop) */}
         <nav className="hidden sm:flex space-x-6 items-center">
           <Link to="/" className="text-gray-700 hover:text-green-600">Trang chủ</Link>
           <Link to="/courses" className="text-gray-700 hover:text-green-600">Khóa học</Link>
@@ -214,6 +214,7 @@ const Header = () => {
         )}
       </nav>
 
+      {/* Modal - Tính năng đang phát triển */}
       <UnderDevelopmentModal isOpen={showUndevelopedModal} onClose={() => setUndevelopedModal(false)} />
     </header>
   );

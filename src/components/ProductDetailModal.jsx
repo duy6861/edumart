@@ -11,20 +11,10 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // Dùng riêng biệt với isOpen để delay render
   const [showUndevelopedModal, setUndevelopedModal] = useState(false);
+  const [error, setError] = useState(null); // Thêm trạng thái lỗi
   const { addToViewHistory } = useViewHistory();
   const navigate = useNavigate(); //
   // Delay render modal để tránh chớp màn hình
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     setShowModal(true);
-  //     const timer = setTimeout(() => {
-  //       fetchProduct();
-  //     }, 50);
-  //     return () => clearTimeout(timer);
-  //   } else {
-  //     setShowModal(false);
-  //   }
-  // }, [isOpen]);
   useEffect(() => {
     if (isOpen) {
       setShowModal(true);
@@ -39,14 +29,29 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
   const fetchProduct = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const res = await axios.get(`https://mock-english-api.onrender.com/products/${productId}`);
-      const data = res.data;
+      const res = await axios.get(
+        `https://mock-english-api.onrender.com/products/${productId}`
+      );
+
+      // Kiểm tra nếu response không phải là JSON hợp lệ
+      const text = await res.request.responseText;
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error("API trả về không phải JSON");
+      }
+
       setProduct(data);
       addToViewHistory(data);
     } catch (err) {
-      console.error('Lỗi khi tải sản phẩm:', err);
+      console.error("Lỗi khi tải sản phẩm:", err);
+      setError("Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.");
     } finally {
       setLoading(false);
     }
@@ -66,66 +71,108 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Chi tiết sản phẩm"
-      className={`relative w-full max-w-md md:max-w-lg lg:max-w-xl mx-auto my-8 bg-white rounded-lg shadow-xl p-6 outline-none transform transition-all duration-300 ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-        }`}
-      overlayClassName={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 ${isOpen ? 'animate-fade-in' : 'animate-fade-out'
-        }`}
-      closeTimeoutMS={300} // Thời gian timeout để đợi hiệu ứng kết thúc trước khi unmount
+      className={`
+        relative w-[90vw] sm:w-auto max-w-[400px] md:max-w-lg lg:max-w-xl
+        mx-auto my-8 bg-white rounded-lg shadow-xl outline-none
+        transform transition-all duration-300
+        ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"}
+      `}
+      overlayClassName={`
+        fixed inset-0 z-50 flex items-center justify-center
+        bg-black bg-opacity-70
+        ${isOpen ? "animate-fade-in" : "animate-fade-out"}
+      `}
+      closeTimeoutMS={300}
     >
-      {/* Nội dung modal */}
-      {loading ? (
-        <div className="flex justify-center p-8">
-          <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <>
-          {/* Header - Tiêu đề + nút đóng */}
-          <div className="flex justify-between items-start mb-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-800">{product.name}</h1>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 focus:outline-none"
-              aria-label="Đóng"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Hình ảnh - Full width trên mobile */}
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-48 object-cover mb-4 rounded-lg sm:h-64 md:h-72"
+      {/* Nút đóng - Luôn ở góc trên bên phải màn hình */}
+      <button
+        onClick={onClose}
+        className="fixed top-4 right-4 z-50 text-gray-500 hover:text-gray-700 focus:outline-none"
+        aria-label="Đóng"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
           />
+        </svg>
+      </button>
 
-          {/* Thông tin sản phẩm */}
-          <div className="mb-4">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-700">Giáo viên</h3>
-            <p className="text-sm sm:text-base text-gray-600">{product.teacher}</p>
+      {/* Nội dung có thể cuộn */}
+      <div className="max-h-[90vh] overflow-auto px-4 pt-6 pb-4">
+        {loading ? (
+          <div className="flex justify-center p-8">
+            <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
-
-          <div className="mb-4">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-700">Mô tả ngắn</h3>
-            <p className="text-sm sm:text-base text-gray-600">{product.shortDesc}</p>
+        ) : error ? (
+          <div className="text-center text-red-500 p-6">
+            <p>{error}</p>
           </div>
+        ) : (
+          <>
+            {/* Tiêu đề */}
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+              {product.name}
+            </h1>
 
-          <div className="mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-700">Thông tin chi tiết</h3>
-            <p className="text-sm sm:text-base text-gray-600">{product.longDesc}</p>
-          </div>
+            {/* Hình ảnh - Full width trên mobile */}
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-[30vh] sm:h-[40vh] object-cover mb-4 rounded-lg"
+            />
 
-          <div className="mb-6">
-            <p className="text-lg font-bold text-green-600">{product.price.toLocaleString()} đ</p>
-          </div>
+            {/* Thông tin sản phẩm */}
+            <div className="mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700">
+                Giáo viên
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {product.teacher}
+              </p>
+            </div>
 
+            <div className="mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700">
+                Mô tả ngắn
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {product.shortDesc}
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700">
+                Thông tin chi tiết
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {product.longDesc}
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-lg font-bold text-green-600">
+                {product.price.toLocaleString()} đ
+              </p>
+            </div>
+
+            <button
+              className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
+              onClick={() => setUndevelopedModal(true)}
+            >
+              Đặt hàng ngay
+            </button>
+          </>
+        )}
+      </div>
           <button
             className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
             onClick={handleOrderNow}
@@ -135,8 +182,12 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
           </button>
         </>
       )}
+
       {/* Modal - Tính năng đang phát triển */}
-      <UnderDevelopmentModal isOpen={showUndevelopedModal} onClose={() => setUndevelopedModal(false)} />
+      <UnderDevelopmentModal
+        isOpen={showUndevelopedModal}
+        onClose={() => setUndevelopedModal(false)}
+      />
     </Modal>
   );
 }
