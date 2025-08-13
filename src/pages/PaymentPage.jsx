@@ -150,7 +150,7 @@ const PaymentPage = () => {
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                 <input
-                  type="email"
+                  type="text"
                   id="email"
                   name="email"
                   value={formData.email}
