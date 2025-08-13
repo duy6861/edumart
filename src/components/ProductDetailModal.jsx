@@ -117,6 +117,7 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
             <p>{error}</p>
           </div>
         ) : (
+          // Bao bọc toàn bộ nội dung chi tiết sản phẩm và nút đặt hàng trong một Fragment duy nhất
           <>
             {/* Tiêu đề */}
             <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
@@ -164,24 +165,17 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
               </p>
             </div>
 
+            {/* Nút "Đặt hàng ngay" nằm trong cùng Fragment này */}
             <button
               className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-              onClick={() => setUndevelopedModal(true)}
+              // onClick={() => setUndevelopedModal(true)} // Comment nếu dùng handleOrderNow
+              onClick={handleOrderNow} // Dùng hàm điều hướng
             >
               Đặt hàng ngay
             </button>
-          </>
+          </> // Đóng Fragment cho phần nội dung khi không loading và không error
         )}
-      </div>
-          <button
-            className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-200 font-semibold"
-            onClick={handleOrderNow}
-          // onClick={() => setUndevelopedModal(true)}
-          >
-            Đặt hàng ngay
-          </button>
-        </>
-      )}
+      </div> {/* Đóng div có thể cuộn */}
 
       {/* Modal - Tính năng đang phát triển */}
       <UnderDevelopmentModal
