@@ -3,14 +3,12 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import { useViewHistory } from '../hooks/useViewHistory';
 import { useNavigate } from 'react-router-dom';
-import UnderDevelopmentModal from './UnderDevelopmentModal';
 Modal.setAppElement('#root');
 
 export default function ProductDetailModal({ productId, isOpen, onClose }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // Dùng riêng biệt với isOpen để delay render
-  // const [showUndevelopedModal, setUndevelopedModal] = useState(false);
   const [error, setError] = useState(null); // Thêm trạng thái lỗi
   const { addToViewHistory } = useViewHistory();
   const navigate = useNavigate(); //
@@ -174,11 +172,6 @@ export default function ProductDetailModal({ productId, isOpen, onClose }) {
         )}
       </div>
 
-      {/* Modal - Tính năng đang phát triển */}
-      {/* <UnderDevelopmentModal
-        isOpen={showUndevelopedModal}
-        onClose={() => setUndevelopedModal(false)}
-      /> */}
     </Modal>
   );
 }
