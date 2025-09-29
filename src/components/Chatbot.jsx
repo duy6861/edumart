@@ -89,7 +89,13 @@ export default function Chatbot() {
     const fallbackReplies = [
       "Mình chưa hiểu rõ yêu cầu của bạn. Bạn có thể nói rõ hơn về chủ đề bạn muốn học không? Ví dụ: giao tiếp, TOEIC, phát âm,... 😊",
       "Bạn muốn học tiếng Anh để làm gì ạ? Mình có thể gợi ý khóa học nếu bạn nói rõ mục tiêu nhé!",
-      "Hãy thử nhập: 'khóa học TOEIC', 'luyện phát âm', 'giao tiếp hàng ngày' để mình giúp bạn nhanh hơn nhé!"
+      "Hãy thử nhập: 'khóa học TOEIC', 'luyện phát âm', 'giao tiếp hàng ngày' để mình giúp bạn nhanh hơn nhé!",
+      "Bạn có muốn học kỹ năng nghe, nói, đọc hay viết trước không? Nhập thử 'nghe', 'nói' để mình hiểu hơn.",
+      "Bạn muốn luyện từ vựng, phát âm hay giao tiếp? Gõ từ khóa chủ đề bạn quan tâm nhé!",
+      "Nếu bạn chưa biết nên học cái gì, bạn có thể nhập từ “giao tiếp”, “IELTS”, “phát âm” để mình gợi ý.",
+      "Bạn muốn học tiếng Anh theo chủ đề nào? Ví dụ: du lịch, công việc, học thuật…",
+      "Bạn đang muốn học TOEIC, IELTS hay tiếng Anh giao tiếp? Nhập từ khóa đó để mình biết bạn cần gì hơn.",
+      "Bạn có thể thử nói chủ đề bạn muốn: “giao tiếp”, “phát âm chuẩn”, “nghe tiếng Anh”… Mình sẽ chọn khóa phù hợp cho bạn."
     ];
 
     // Chọn ngẫu nhiên một phản hồi mặc định để tránh lặp lại
